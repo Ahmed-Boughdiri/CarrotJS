@@ -39,56 +39,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = __importDefault(require("express"));
-var ValidateData_1 = __importDefault(require("../util/ValidateData"));
-var User_1 = __importDefault(require("../models/User"));
-var EmailExists_1 = __importDefault(require("../util/EmailExists"));
-var PasswordHashing_1 = __importDefault(require("../util/PasswordHashing"));
-var GenToken_1 = __importDefault(require("../util/GenToken"));
-var route = express_1.default.Router();
+var bcryptjs_1 = __importDefault(require("bcryptjs"));
 // TODO: Working More On The Typescript Types
-route.post("/register", ValidateData_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, username, email, password, checkEmailExists, newUser, token, err_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _a = req.body.user, username = _a.username, email = _a.email;
-                password = req.body.user.password;
-                return [4 /*yield*/, EmailExists_1.default(email)];
-            case 1:
-                checkEmailExists = _b.sent();
-                if (checkEmailExists.exists) {
-                    return [2 /*return*/, res.status(400).send({ error: checkEmailExists.error })];
-                }
-                return [4 /*yield*/, PasswordHashing_1.default(password)];
-            case 2:
-                password = _b.sent();
-                newUser = new User_1.default({
-                    username: username,
-                    email: email,
-                    password: password
-                });
-                _b.label = 3;
-            case 3:
-                _b.trys.push([3, 6, , 7]);
-                return [4 /*yield*/, newUser.save()];
-            case 4:
-                _b.sent();
-                return [4 /*yield*/, GenToken_1.default(username, email, newUser._id)];
-            case 5:
-                token = _b.sent();
-                return [2 /*return*/, res.status(201).send({
-                        username: newUser.username,
-                        email: newUser.email,
-                        password: newUser.password,
-                        id: newUser._id,
-                        token: token
-                    })];
-            case 6:
-                err_1 = _b.sent();
-                return [2 /*return*/, res.status(400).send({ error: err_1 })];
-            case 7: return [2 /*return*/];
-        }
+function default_1(password) {
+    return __awaiter(this, void 0, void 0, function () {
+        var salt, hashedPassword;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, bcryptjs_1.default.genSalt(10)];
+                case 1:
+                    salt = _a.sent();
+                    return [4 /*yield*/, bcryptjs_1.default.hashSync(password, salt)];
+                case 2:
+                    hashedPassword = _a.sent();
+                    return [2 /*return*/, hashedPassword];
+            }
+        });
     });
-}); });
-exports.default = route;
+}
+exports.default = default_1;

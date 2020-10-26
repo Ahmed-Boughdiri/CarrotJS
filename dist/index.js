@@ -25,7 +25,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importStar(require("express"));
 var Auth_1 = __importDefault(require("./routes/Auth"));
 var dotenv_1 = __importDefault(require("dotenv"));
+var mongoose_1 = __importDefault(require("mongoose"));
 dotenv_1.default.config();
+// TODO: Check More The Connection With The DataBase
+mongoose_1.default.connect(process.env.DB || "", { useNewUrlParser: true, useUnifiedTopology: true }, function () { return console.log("DB Connected Successfully ..."); });
 // Setup The Server
 var app = express_1.default();
 var PORT = process.env.PORT || 5000;

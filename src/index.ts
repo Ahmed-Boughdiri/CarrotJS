@@ -3,9 +3,14 @@ import auth from "./routes/Auth";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
-//mongoose.connect(process.env.DB || "", () =>console.log("DB Connected Successfully ..."))
-
 dotenv.config();
+
+// TODO: Check More The Connection With The DataBase
+mongoose.connect(
+    process.env.DB || "", 
+    { useNewUrlParser: true,useUnifiedTopology: true },
+    () =>console.log("DB Connected Successfully ...")
+);
 
 // Setup The Server
 const app = express();
