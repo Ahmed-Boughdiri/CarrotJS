@@ -45,6 +45,8 @@ var User_1 = __importDefault(require("../models/User"));
 var EmailExists_1 = __importDefault(require("../util/EmailExists"));
 var PasswordHashing_1 = __importDefault(require("../util/PasswordHashing"));
 var GenToken_1 = __importDefault(require("../util/GenToken"));
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var bcryptjs_1 = __importDefault(require("bcryptjs"));
 var route = express_1.default.Router();
 // TODO: Working More On The Typescript Types
 route.post("/register", ValidateData_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -88,6 +90,50 @@ route.post("/register", ValidateData_1.default, function (req, res) { return __a
                 err_1 = _b.sent();
                 return [2 /*return*/, res.status(400).send({ error: err_1 })];
             case 7: return [2 /*return*/];
+        }
+    });
+}); });
+// TODO: Working More On The Typescript Types
+route.get("/token/login", function (req, res) {
+    var token = req.body.token;
+    if (!token)
+        return res.status(400).send({ error: "No Token Provided" });
+    var validToken = jsonwebtoken_1.default.verify(token, process.env.SECRET || "");
+    if (!validToken)
+        return res.status(400).send({ error: "Invalid Token" });
+    return res.status(200).send({
+        username: validToken.username,
+        email: validToken.email,
+        id: validToken.id,
+        token: token
+    });
+});
+// TODO: Giving More Try Catch Blocks
+route.get("/login", ValidateData_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, username, email, password, user, validPassword, token;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body.user, username = _a.username, email = _a.email, password = _a.password;
+                return [4 /*yield*/, User_1.default.findOne({ email: email, username: username })];
+            case 1:
+                user = _b.sent();
+                if (!user)
+                    return [2 /*return*/, res.status(400).send({ error: "User Do Not Exists" })];
+                return [4 /*yield*/, bcryptjs_1.default.compare(password, user.password)];
+            case 2:
+                validPassword = _b.sent();
+                if (!validPassword)
+                    return [2 /*return*/, res.status(400).send({ error: "Wrong Password" })];
+                return [4 /*yield*/, GenToken_1.default(username, email, user._id)];
+            case 3:
+                token = _b.sent();
+                return [2 /*return*/, res.status(200).send({
+                        username: username,
+                        email: email,
+                        id: user._id,
+                        token: token
+                    })];
         }
     });
 }); });
