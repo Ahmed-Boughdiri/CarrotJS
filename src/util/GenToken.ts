@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { SECRET } from "../global";
 
 // TODO: Working More On The Typescript Types
 export default async function(username:String,email:String,id:String):Promise<any> {
@@ -7,6 +8,6 @@ export default async function(username:String,email:String,id:String):Promise<an
         username,
         email,
         id
-    },process.env.SECRET || "")
+    },SECRET as string)
     return token;
 }

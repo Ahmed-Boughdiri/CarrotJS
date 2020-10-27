@@ -1,4 +1,3 @@
-import User from "../models/User";
 
 interface EmailResult {
     exists: Boolean;
@@ -6,16 +5,18 @@ interface EmailResult {
 }
 
 // TODO: Working More On Typescript Types
-export default async function(email:String):Promise<EmailResult> {
+export default async function(email:String,User:any):Promise<EmailResult> {
+    console.log("Email Exists Started")
     let emailExists:any;
-    try {
+    // try {
         emailExists = await User.findOne({ email });
-    } catch(err) {
-        return {
-            exists: true,
-            error: "An Error Has Occured Please Try Again"
-        }
-    }
+        console.log("Email Exists Almost Finished")
+    // } catch(err) {
+    //     return {
+    //         exists: true,
+    //         error: "An Error Has Occured Please Try Again"
+    //     }
+    // }
     if(emailExists) {
         return {
             exists: true,

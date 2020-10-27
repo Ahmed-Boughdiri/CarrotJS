@@ -1,23 +1,15 @@
-import express,{ json } from "express";
-import auth from "./routes/Auth";
-import dotenv from "dotenv";
-import mongoose from "mongoose";
+import { setSecret } from "./global";
+import { Auth } from "./routes/Auth";
+import { initUser } from "./models/User";
 
-dotenv.config();
-
-// TODO: Check More The Connection With The DataBase
-mongoose.connect(
-    process.env.DB || "", 
-    { useNewUrlParser: true,useUnifiedTopology: true },
-    () =>console.log("DB Connected Successfully ...")
-);
-
-// Setup The Server
-const app = express();
-const PORT = process.env.PORT || 5000;
-app.listen(PORT,() =>console.log(`Server Running On Port ${PORT}...`))
-
-// Middlewares
-app.use(json());
-app.use("/api/auth",auth)
+// TODO: Working More On The Typescript Types
+export function handleAuth(express:any,mongoose:any,app:any,route:String,db_connection:any,secret:String):void {
+    console.log("Starting Auth Layer")
+    db_connection();
+    const User = initUser(mongoose)
+    console.log("DB Auth Layer Connected")
+    const auth = Auth(express,User);
+    app.use(route,auth);
+    setSecret(secret);
+}
 

@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var global_1 = require("../global");
 // TODO: Working More On The Typescript Types
 function default_1(username, email, id) {
     return __awaiter(this, void 0, void 0, function () {
@@ -50,7 +51,7 @@ function default_1(username, email, id) {
                         username: username,
                         email: email,
                         id: id
-                    }, process.env.SECRET || "")];
+                    }, global_1.SECRET)];
                 case 1:
                     token = _a.sent();
                     return [2 /*return*/, token];

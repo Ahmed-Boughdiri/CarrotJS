@@ -35,30 +35,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var User_1 = __importDefault(require("../models/User"));
 // TODO: Working More On Typescript Types
-function default_1(email) {
+function default_1(email, User) {
     return __awaiter(this, void 0, void 0, function () {
-        var emailExists, err_1;
+        var emailExists;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, User_1.default.findOne({ email: email })];
+                    console.log("Email Exists Started");
+                    return [4 /*yield*/, User.findOne({ email: email })];
                 case 1:
+                    // try {
                     emailExists = _a.sent();
-                    return [3 /*break*/, 3];
-                case 2:
-                    err_1 = _a.sent();
-                    return [2 /*return*/, {
-                            exists: true,
-                            error: "An Error Has Occured Please Try Again"
-                        }];
-                case 3:
+                    console.log("Email Exists Almost Finished");
+                    // } catch(err) {
+                    //     return {
+                    //         exists: true,
+                    //         error: "An Error Has Occured Please Try Again"
+                    //     }
+                    // }
                     if (emailExists) {
                         return [2 /*return*/, {
                                 exists: true,

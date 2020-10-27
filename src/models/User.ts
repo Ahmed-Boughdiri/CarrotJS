@@ -1,10 +1,11 @@
-import mongoose from "mongoose";
 
-// TODO: Working More On The Schema 
-const userSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String
-});
-
-export default mongoose.model("User", userSchema);
+export function initUser(mongoose:any) {
+    // TODO: Working More On The Schema 
+    console.log("initUser Started")
+    const userSchema = new mongoose.Schema({
+        username: String,
+        email: String,
+        password: String
+    });
+    return mongoose.model("User", userSchema);
+}
